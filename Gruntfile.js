@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                     target: 'es5', //or es3
                     // basePath: 'path/to/typescript/files',
                     sourceMap: false,
-                    // declaration: true
+                    declaration: true
                 }
             },
         },

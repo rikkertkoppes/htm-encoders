@@ -8,8 +8,8 @@ function assertOdd(x: number) {
     }
 }
 
-type SizeCalculator = (w: number, minValue: number, maxValue: number) => number;
-type Encoder<T> = (value: T) => SDR;
+export type SizeCalculator = (w: number, minValue: number, maxValue: number) => number;
+export type Encoder<T> = (value: T) => SDR;
 
 /**
  * examples:
