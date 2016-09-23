@@ -1,5 +1,6 @@
+/// <reference path="../node_modules/htm-sdr/dist/index.d.ts" />
 
-import SDR from 'htm-sdr/src/index';
+import SDR from 'htm-sdr/dist';
 
 function assertOdd(x: number) {
     if ((x % 2) === 0) {

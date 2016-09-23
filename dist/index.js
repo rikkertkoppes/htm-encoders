@@ -1,5 +1,5 @@
 "use strict";
-var index_1 = require('htm-sdr/src/index');
+var dist_1 = require('htm-sdr/dist');
 function assertOdd(x) {
     if ((x % 2) === 0) {
         throw new Error(x + ' must be odd');
@@ -18,7 +18,7 @@ function ScalarEncoder(w, min, max, n, periodic) {
         for (i = 0; i < w; i++) {
             indices.push((bucketNumber + i) % size);
         }
-        return new index_1.default(size, indices);
+        return new dist_1.default(size, indices);
     };
 }
 exports.ScalarEncoder = ScalarEncoder;
