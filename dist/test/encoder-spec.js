@@ -42,6 +42,20 @@ describe('ScalarEncoder', function () {
             chai_1.expect(enc(2).toString()).to.equal('1011');
             chai_1.expect(enc(3).toString()).to.equal('1110');
         });
+        it('should encode periodic, 3 width, with radius', function () {
+            var enc = index_1.ScalarEncoder(3, 1, 3, index_1.ScalarEncoder.radius(1), true);
+            chai_1.expect(enc(1).toString()).to.equal('111000');
+            chai_1.expect(enc(2).toString()).to.equal('000111');
+            chai_1.expect(enc(3).toString()).to.equal('111000');
+        });
+        it('should encode periodic, 3 width, with resolution', function () {
+            var enc = index_1.ScalarEncoder(3, 1, 3, index_1.ScalarEncoder.resolution(0.5), true);
+            chai_1.expect(enc(1.0).toString()).to.equal('1110');
+            chai_1.expect(enc(1.5).toString()).to.equal('0111');
+            chai_1.expect(enc(2.0).toString()).to.equal('1011');
+            chai_1.expect(enc(2.5).toString()).to.equal('1101');
+            chai_1.expect(enc(3.0).toString()).to.equal('1110');
+        });
     });
 });
 describe('CategoryEncoder', function () {

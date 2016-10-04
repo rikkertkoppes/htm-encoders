@@ -8,7 +8,7 @@ function assertOdd(x: number) {
     }
 }
 
-export type SizeCalculator = (w: number, minValue: number, maxValue: number) => number;
+export type SizeCalculator = (w: number, minValue: number, maxValue: number, periodic: boolean) => number;
 export type Encoder<T> = (value: T) => SDR;
 
 /**
@@ -30,7 +30,7 @@ export type Encoder<T> = (value: T) => SDR;
 export function ScalarEncoder(w: number, min: number, max: number, n: number | SizeCalculator, periodic: boolean = false): Encoder<number> {
     assertOdd(w);
     var range = max - min;
-    var size = (typeof n === 'function') ? n(w, min, max) : n;
+    var size = (typeof n === 'function') ? n(w, min, max, periodic) : n;
     var uniquePositions = periodic ? size : size - w;
     return (value: number): SDR => {
         var bucketSize = range / uniquePositions;
@@ -71,9 +71,9 @@ export module ScalarEncoder {
      */
 
     export function resolution(resolution: number): SizeCalculator {
-        return (w, min, max) => {
+        return (w, min, max, periodic) => {
             //calculate n for the given resolution
-            return w + (max - min) / resolution;
+            return (periodic ? 0 : w) + (max - min) / resolution;
         }
     }
 
@@ -102,8 +102,8 @@ export module ScalarEncoder {
      * nr of bits needed = 6
      */
     export function radius(radius: number): SizeCalculator {
-        return (w, min, max) => {
-            return w + w * (max - min) / radius;
+        return (w, min, max, periodic) => {
+            return (periodic ? 0 : w) + w * (max - min) / radius;
         }
     }
 }
@@ -114,7 +114,7 @@ export function CategoryEncoder<T>(w: number, categories: T[]): Encoder<T> {
     var indexMap = categories.reduce((map, category, i) => {
         map[category.toString()] = i;
         return map;
-    },{});
+    }, {});
     return (value: T): SDR => {
         var i = indexMap[value.toString()];
         if (i === undefined) {

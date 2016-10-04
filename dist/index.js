@@ -9,7 +9,7 @@ function ScalarEncoder(w, min, max, n, periodic) {
     if (periodic === void 0) { periodic = false; }
     assertOdd(w);
     var range = max - min;
-    var size = (typeof n === 'function') ? n(w, min, max) : n;
+    var size = (typeof n === 'function') ? n(w, min, max, periodic) : n;
     var uniquePositions = periodic ? size : size - w;
     return function (value) {
         var bucketSize = range / uniquePositions;
@@ -25,14 +25,14 @@ exports.ScalarEncoder = ScalarEncoder;
 var ScalarEncoder;
 (function (ScalarEncoder) {
     function resolution(resolution) {
-        return function (w, min, max) {
-            return w + (max - min) / resolution;
+        return function (w, min, max, periodic) {
+            return (periodic ? 0 : w) + (max - min) / resolution;
         };
     }
     ScalarEncoder.resolution = resolution;
     function radius(radius) {
-        return function (w, min, max) {
-            return w + w * (max - min) / radius;
+        return function (w, min, max, periodic) {
+            return (periodic ? 0 : w) + w * (max - min) / radius;
         };
     }
     ScalarEncoder.radius = radius;
